@@ -36,7 +36,6 @@ impl Level1Bot {
                 continue;
             }
             let score = self.minimax(&new_board, !maximizing).1;
-            println!("{}: {}", pos, score);
             moves.insert(pos, score);
         }
         moves
@@ -80,7 +79,6 @@ impl Level1Bot {
 
 impl ttt::Player for Level1Bot {
     fn next_move(&mut self, board: &ttt::Board) -> usize {
-        println!("Thinking...");
         self.evaluate(board);
         let start = std::time::Instant::now();
         let (pos, _) = self.minimax(board, true);
