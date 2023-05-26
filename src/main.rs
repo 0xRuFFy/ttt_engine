@@ -6,8 +6,8 @@ mod util;
 fn main() {
     println!("Hello, world!");
     let mut game = ttt::Game::new(
-        ttt::Level2Bot::new(ttt::Mark::X),
-        ttt::Level1Bot::new(ttt::Mark::O),
+        ttt::Level3Bot::new(ttt::Mark::X),
+        ttt::HumanPlayer::new(ttt::Mark::O),
     );
     game.play();
 }

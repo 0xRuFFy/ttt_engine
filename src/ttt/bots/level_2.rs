@@ -7,6 +7,7 @@ pub struct Level2Bot {
     mark: ttt::Mark,
     last_time_taken: u128,
     seen_boards: HashMap<ttt::Board, (usize, f64)>,
+    catches: u128,
 }
 
 impl Level2Bot {
@@ -15,12 +16,13 @@ impl Level2Bot {
             mark,
             last_time_taken: 0,
             seen_boards: HashMap::new(),
+            catches: 0,
         }
     }
 
     fn minimax(&mut self, board: &ttt::Board, maximizing: bool) -> (usize, f64) {
-        let start = std::time::Instant::now();
         if let Some((pos, score)) = self.seen_boards.get(board) {
+            self.catches += 1;
             return (*pos, *score);
         }
 
@@ -55,6 +57,7 @@ impl Level2Bot {
             }
         }).unwrap();
         self.seen_boards.insert(board.clone(), (*best_move.0, *best_move.1));
+
         (*best_move.0, *best_move.1)
     }
 }
@@ -68,6 +71,9 @@ impl ttt::Player for Level2Bot {
     }
 
     fn time_taken(&self) -> u128 {
+        // print seen boards length
+        println!("seen boards length: {}", self.seen_boards.len());
+        println!("catches: {}", self.catches);
         self.last_time_taken
     }
 }
